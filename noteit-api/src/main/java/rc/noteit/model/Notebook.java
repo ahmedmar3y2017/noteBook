@@ -10,7 +10,9 @@ import java.util.UUID;
 @Entity
 public class Notebook {
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "notebook", cascade = CascadeType.ALL)
@@ -19,7 +21,6 @@ public class Notebook {
 
 
     protected Notebook() {
-        this.id = UUID.randomUUID();
         this.notes = new ArrayList<>();
     }
 
@@ -30,15 +31,25 @@ public class Notebook {
 
     public Notebook(String id, String name) {
         this();
-        if (id != null) {
-            this.id = UUID.fromString(id);
-        }
+
         this.name = name;
     }
 
 
-    public UUID getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     public String getName() {

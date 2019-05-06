@@ -14,7 +14,8 @@ import java.util.UUID;
 @Entity
 public class Note {
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
     private String text;
 
@@ -24,7 +25,6 @@ public class Note {
     private Date lastModifiedOn;
 
     protected Note() {
-        this.id = UUID.randomUUID();
         this.lastModifiedOn = new Date();
     }
 
@@ -37,14 +37,28 @@ public class Note {
 
     public Note(String id, String title, String text, Notebook notebook) {
         this(title, text, notebook);
-        if (id != null) {
-            this.id = UUID.fromString(id);
-        }
+
     }
 
 
-    public UUID getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setNotebook(Notebook notebook) {
+        this.notebook = notebook;
     }
 
     public String getTitle() {
