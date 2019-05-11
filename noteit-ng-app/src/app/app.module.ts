@@ -13,7 +13,14 @@ import {FormsModule}  from "@angular/forms";
 import {HttpClientModule}  from "@angular/common/http";
 import { NoteComponent } from './notes/note/note.component';
 import { NoteTextFilterPipe } from './shared/note-text-filter.pipe';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
+import { httpInterceptorProviders } from './auth/AuthInterceptor';
+import { HomeComponent } from './home/home.component';
+import { UserComponent } from './user/user.component';
+import { PmComponent } from './pm/pm.component';
+import { AdminComponent } from './admin/admin.component';
 
 const appRoute: Routes = [
   {
@@ -25,18 +32,50 @@ const appRoute: Routes = [
     path: "feedback",
     component: FeedbackComponent
   }
-  ,
+  // ,
+  // {
+  //   path: "",
+  //   component: NotesComponent ,
+  //   pathMatch: 'full'
+  // }
+ // ,
+ //  {
+ //    path: "**",
+ //    component: NotfoundComponent
+ //  }
+
+,
+
+
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'user',
+    component: UserComponent
+  },
+  {
+    path: 'pm',
+    component: PmComponent
+  },
+  {
+    path: 'admin',
+    component: AdminComponent
+  },
+  {
+    path: 'auth/login',
+    component: LoginComponent
+  },
+  {
+    path: 'signup',
+    component: RegisterComponent
+  },
   {
     path: "",
-    component: NotesComponent ,
+    redirectTo: 'home',
     pathMatch: 'full'
   }
- ,
-  {
-    path: "**",
-    component: NotfoundComponent
-  }
-
 
 ];
 
@@ -49,7 +88,13 @@ const appRoute: Routes = [
     FeedbackComponent,
     NotfoundComponent,
     NoteComponent,
-    NoteTextFilterPipe
+    NoteTextFilterPipe,
+    LoginComponent,
+    RegisterComponent,
+    HomeComponent,
+    UserComponent,
+    PmComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule ,
@@ -57,7 +102,7 @@ const appRoute: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoute)
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {

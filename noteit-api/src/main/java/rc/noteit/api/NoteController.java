@@ -48,7 +48,7 @@ public class NoteController {
 
     @GetMapping("/byId/{id}")
     public NoteViewModel byId(@PathVariable String id) {
-        var note = this.noteRepository.findById(UUID.fromString(id)).orElse(null);
+        var note = this.noteRepository.findById(Long.parseLong(id)).orElse(null);
 
         if (note == null) {
             throw new EntityNotFoundException();
@@ -63,7 +63,7 @@ public class NoteController {
     public List<NoteViewModel> byNotebook(@PathVariable String notebookId) {
         List<Note> notes = new ArrayList<>();
 
-        var notebook = this.notebookRepository.findById(UUID.fromString(notebookId));
+        var notebook = this.notebookRepository.findById(Long.parseLong(notebookId));
         if (notebook.isPresent()) {
             notes = this.noteRepository.findAllByNotebook(notebook.get());
         }
@@ -92,6 +92,6 @@ public class NoteController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
-        this.noteRepository.deleteById(UUID.fromString(id));
+        this.noteRepository.deleteById(Long.parseLong(id));
     }
 }

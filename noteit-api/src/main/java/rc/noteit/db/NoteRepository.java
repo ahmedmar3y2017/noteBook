@@ -9,6 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface NoteRepository extends JpaRepository<Note, UUID> {
+public interface NoteRepository extends JpaRepository<Note, Long> {
     List<Note> findAllByNotebook(Notebook notebook);
 }

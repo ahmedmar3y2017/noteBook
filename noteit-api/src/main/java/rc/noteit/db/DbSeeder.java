@@ -62,14 +62,14 @@ public class DbSeeder implements CommandLineRunner {
         authorityRepository.save(authority2);
 
         // create users
-        User user = new User("ahmed", passwordEncoder.encode("123"),
+        User user = new User("ahmed", passwordEncoder.encode("123456"),
                 "ahmed", "marey", "ahmed@gmail.com",
                 true, new Date(),  convertArrayToSet(new Authority[]{authority1 , authority2}));
         authority2.setName(AuthorityName.ROLE_USER);
-        User user2 = new User("user", passwordEncoder.encode("123"),
+        User user2 = new User("user", passwordEncoder.encode("123456"),
                 "user", "user", "user@gmail.com",
                 true, new Date(), convertArrayToSet(new Authority[]{ authority2}) );
-        User user3 = new User("admin", passwordEncoder.encode("admin"),
+        User user3 = new User("admin", passwordEncoder.encode("123456"),
                 "admin", "admin", "admin@gmail.com",
                 true, new Date(), convertArrayToSet(new Authority[]{authority1 , authority2}));
 

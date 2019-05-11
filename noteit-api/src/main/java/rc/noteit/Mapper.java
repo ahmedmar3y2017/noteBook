@@ -52,7 +52,7 @@ public class Mapper {
     }
 
     public Note convertToNoteEntity(NoteViewModel viewModel) {
-        var notebook = this.notebookRepository.findById(UUID.fromString(viewModel.getNotebookId())).get();
+        var notebook = this.notebookRepository.findById(Long.parseLong(viewModel.getNotebookId())).get();
         var entity = new Note(viewModel.getId(), viewModel.getTitle(), viewModel.getText(), notebook);
 
         return entity;

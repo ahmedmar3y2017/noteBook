@@ -45,8 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .userDetailsService(jwtUserDetailsService)
-            .passwordEncoder(passwordEncoderBean());
+                .userDetailsService(jwtUserDetailsService)
+                .passwordEncoder(passwordEncoderBean());
     }
 
     @Bean
@@ -63,46 +63,46 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors()
-            // we don't need CSRF because our token is invulnerable
-            .and().csrf().disable()
+                // we don't need CSRF because our token is invulnerable
+                .and().csrf().disable()
 
-            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
-            // don't create session
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                // don't create session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
-            .authorizeRequests()
+                .authorizeRequests()
+                .antMatchers("/api/auth/**").permitAll()
+                // Un-secure H2 Database
+                .antMatchers("/h2-console/**/**").permitAll()
 
-            // Un-secure H2 Database
-            .antMatchers("/h2-console/**/**").permitAll()
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers(
+                        "/",
+                        "/js/**",
+                        "/css/**",
+                        "/img/**",
+                        "/webjars/**").permitAll()
+                .antMatchers("/", "/index").permitAll()
+                .antMatchers("/profile/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/management/**").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1")
+                .antMatchers("/api/public/test2").hasAuthority("ACCESS_TEST2")
+                .antMatchers("/api/public/users").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and().formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout().invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
+                .permitAll();
 
-            .antMatchers("/auth/**").permitAll()
-            .antMatchers(
-                "/",
-                "/js/**",
-                "/css/**",
-                "/img/**",
-                "/webjars/**").permitAll()
-            .antMatchers("/" ,"/index").permitAll()
-            .antMatchers("/profile/**").authenticated()
-            .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/management/**").hasAnyRole("ADMIN", "MANAGER")
-            .antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1")
-            .antMatchers("/api/public/test2").hasAuthority("ACCESS_TEST2")
-            .antMatchers("/api/public/users").hasRole("ADMIN")
-            .anyRequest().authenticated()
-            .and().formLogin()
-            .loginPage("/login")
-            .permitAll()
-            .and()
-            .logout() .invalidateHttpSession(true)
-            .clearAuthentication(true)
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/login?logout")
-            .permitAll();
-
-       httpSecurity
-            .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity
+                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
 //        httpSecurity

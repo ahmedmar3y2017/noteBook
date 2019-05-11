@@ -7,5 +7,5 @@ import rc.noteit.model.Notebook;
 import java.util.UUID;
 
 @Repository
-public interface NotebookRepository extends JpaRepository<Notebook, UUID> {
+public interface NotebookRepository extends JpaRepository<Notebook, Long> {
 }
